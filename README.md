@@ -80,7 +80,7 @@ btn1Sub.TextSize = 15
 btn1Sub.TextColor3 = Color3.fromRGB(170, 170, 170)
 
 
--- Função Devoure
+-- Função Devoure (corrigida)
 local function Devoure()
     task.spawn(function()
 
@@ -91,21 +91,28 @@ local function Devoure()
             end
         end
 
-        task.wait(0.2)
+        -- esperar 1 segundo ANTES DE CLICAR
+        task.wait(1)
 
-        -- click
-        VirtualInputManager:SendMouseButtonEvent(500,500,0,true,game,1)
-        task.wait(0.05)
-        VirtualInputManager:SendMouseButtonEvent(500,500,0,false,game,1)
+        -- calcular o centro da tela
+        local cam = workspace.CurrentCamera
+        local x = cam.ViewportSize.X / 2
+        local y = cam.ViewportSize.Y / 2
 
+        -- 1 clique no meio da tela
+        VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 1)
+        task.wait(0.03)
+        VirtualInputManager:SendMouseButtonEvent(x, y, 0, false, game, 1)
+
+        -- esperar 0.6s
         task.wait(0.6)
 
-        -- Spamar todos os tools equipados
+        -- spamar todos os tools equipados
         for _,tool in ipairs(char:GetChildren()) do
             if tool:IsA("Tool") then
-                VirtualInputManager:SendMouseButtonEvent(500,500,0,true,game,1)
+                VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 1)
                 task.wait(0.01)
-                VirtualInputManager:SendMouseButtonEvent(500,500,0,false,game,1)
+                VirtualInputManager:SendMouseButtonEvent(x, y, 0, false, game, 1)
             end
         end
     end)
